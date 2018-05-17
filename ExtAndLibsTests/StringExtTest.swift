@@ -108,6 +108,41 @@ class StringExtTest: XCTestCase {
         XCTAssertEqual(str.substringWithRange(4, location: 1), "a")
     }
     
+    func testIsValidEmailTrue(){
+        let email = "claudiocastro@gmail.com"
+        XCTAssert(email.isValidEmail)
+    }
+    
+    func testIsValidEmailWithOutAt(){
+        let email = "claudiocastro.gmail.com"
+        XCTAssertFalse(email.isValidEmail)
+    }
+    
+    func testIsValidEmailWithOutDomain(){
+        let email = "claudiocastro@gmail"
+        XCTAssertFalse(email.isValidEmail)
+    }
+    
+    func testIsValidEmailWithOutUser(){
+        let email = "@gmail.com"
+        XCTAssertFalse(email.isValidEmail)
+    }
+    
+/*    func testIsValidEmailWithpointOnUser(){
+        let email = ".@gmail.com"
+        XCTAssertFalse(email.isValidEmail)
+    }  */
+    
+    func testIsValidEmailWithTwoAt(){
+        let email = "claudiocastro@@gmail.com"
+        XCTAssertFalse(email.isValidEmail)
+    }
+    
+    func testCapitalizingFirstLetter(){
+        XCTAssertEqual(str.capitalizingFirstLetter, "Maria")
+    }
+
+    
     
     
 }

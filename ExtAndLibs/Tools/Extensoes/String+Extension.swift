@@ -139,11 +139,23 @@ extension String {
         return data!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
     }
 
+    
+    /**
+     Retorna verdadeiro se a string possui o formato de um email válido
+     
+     - Returns: True se a string possui o formato válido de um email
+     string@string.string
+     
+     - Version: 1.0
+     
+     */
     var isValidEmail : Bool {
-        if self.length == 0 {
+        
+        if self.length < 5 {
             return false
         }else{
-            let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+            // let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+            let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
             
             let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
             return emailTest.evaluate(with: self)
@@ -164,11 +176,19 @@ extension String {
         return formato.date(from: self)!
     }
     
+    /**
+     transforma a primeira letra da string em maiusculo
+     
+     - Returns: retorna a mesma string com a primeira letra em maiusculo, não considera se existe mais de uma palavra na string
+     - Version: 1.0
+     
+     */
     var capitalizingFirstLetter : String {
         let first = String(prefix(1)).capitalized
         let other = String(dropFirst())
         return first+other
     }
+    
     
     func stringToDate(format: String) -> Date {
         let dateFormatter = DateFormatter()
@@ -188,4 +208,15 @@ extension String {
         formato.formatterBehavior = .default
         return formato.date(from: self)
     }
+    
+    func getRangeOfSubstring(_ subString: String) -> NSRange? {
+        var linkRange : NSRange?
+        if let sampleLinkRange = self.range(of: subString) {
+            let startPos = self.distance(from: self.startIndex, to: sampleLinkRange.lowerBound)
+            let endPos = self.distance(from: self.startIndex, to: sampleLinkRange.upperBound)
+            linkRange = NSMakeRange(startPos, endPos - startPos)
+        }
+        return linkRange
+    }
+    
 }
