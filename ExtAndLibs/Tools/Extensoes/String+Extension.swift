@@ -190,23 +190,21 @@ extension String {
     }
     
     
-    func stringToDate(format: String) -> Date {
+    func stringToDate(format: String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat =  format
-        let dateObj = dateFormatter.date(from: self)
-        return dateObj!
+        dateFormatter.timeZone = NSTimeZone.system
+        dateFormatter.locale = NSLocale.current
+        dateFormatter.formatterBehavior = .default
+        return dateFormatter.date(from: self)
     }
     
     func dateFromBrDateFormat() -> Date? {
-        let formato = DateFormatter()
-        formato.dateFormat = "dd/MM/yy"
+        var format: String = "dd/MM/yy"
         if self.length > 8 {
-            formato.dateFormat = "dd/MM/yyyy"
+            format = "dd/MM/yyyy"
         }
-        formato.timeZone = NSTimeZone.system
-        formato.locale = NSLocale.current
-        formato.formatterBehavior = .default
-        return formato.date(from: self)
+        return stringToDate(format: format)
     }
     
     func getRangeOfSubstring(_ subString: String) -> NSRange? {
